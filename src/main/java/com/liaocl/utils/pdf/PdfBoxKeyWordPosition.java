@@ -1,4 +1,4 @@
-package com.liaocl.utils.util.pdf;
+package com.liaocl.utils.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -12,15 +12,18 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 
+/**
+ * @author liaocl
+ */
 public class PdfBoxKeyWordPosition extends PDFTextStripper {
 	// 关键字字符数组
 	private char[] key;
 	// PDF文件路径
 	private String pdfPath;
 	// 坐标信息集合
-	private List<float[]> list = new ArrayList<float[]>();
+	private List<float[]> list = new ArrayList<>();
 	// 当前页信息集合
-	private List<float[]> pagelist = new ArrayList<float[]>();
+	private List<float[]> pagelist = new ArrayList<>();
 	// 有参构造方法
 	public PdfBoxKeyWordPosition(String keyWords, String pdfPath) throws IOException {
 		super();

@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author liaocl
+ */
 @RestController
 @SpringBootApplication
 public class UtilsApplication {
@@ -14,7 +17,7 @@ public class UtilsApplication {
 	}
 	
     @RequestMapping("/")
-    String index() {
+    public String index() {
         return "hello spring boot1";
     }
 

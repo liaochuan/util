@@ -1,4 +1,4 @@
-package com.liaocl.utils.util.pdf;
+package com.liaocl.utils.pdf;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
+import com.liaocl.utils.common.StringUtils;
 import org.apache.pdfbox.contentstream.operator.Operator;
 import org.apache.pdfbox.cos.COSArray;
 import org.apache.pdfbox.cos.COSString;
@@ -28,7 +29,6 @@ import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.springframework.core.io.ClassPathResource;
 
-import com.liaocl.utils.util.common.StringUtils;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;

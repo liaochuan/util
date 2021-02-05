@@ -1,4 +1,4 @@
-package com.liaocl.utils.util.common;
+package com.liaocl.utils.common;
 
 import java.sql.Date;
 import java.sql.Timestamp;
