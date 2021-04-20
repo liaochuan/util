@@ -1,4 +1,4 @@
-package com.liaocl.utils.pdf;
+package com.liaocl.util.utils.pdf;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 
-import com.liaocl.utils.common.StringUtils;
+import com.liaocl.util.utils.common.StringUtils;
 import org.apache.pdfbox.contentstream.operator.Operator;
 import org.apache.pdfbox.cos.COSArray;
 import org.apache.pdfbox.cos.COSString;

@@ -1,4 +1,4 @@
-package com.liaocl.utils.pdf;
+package com.liaocl.util.utils.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
