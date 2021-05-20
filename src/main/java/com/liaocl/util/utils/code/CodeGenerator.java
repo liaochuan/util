@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.ResourceUtils;
+import sun.awt.OSInfo;
 
 import java.io.*;
 import java.sql.*;
@@ -300,6 +301,10 @@ public class CodeGenerator {
                 }
             }
             log.debug("代码生成结束");
+            // 打开文件夹
+            if (OSInfo.OSType.WINDOWS.equals(OSInfo.getOSType())){
+                Runtime.getRuntime().exec("explorer.exe /select," + path.replace("/", "\\"));
+            }
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -311,7 +316,7 @@ public class CodeGenerator {
         generateInfo.setTableName("LIMS_EQUIP_PLAN_ANNUAL");
         generateInfo.setAuthor("liaocl");
         generateInfo.setPackageName("com.sunwayworld.elab.resourcesdata.equipment");
-        generateInfo.setPathByPackage(false);
+        generateInfo.setPathByPackage(true);
         CodeGenerator codeGenerator = new CodeGenerator();
         codeGenerator.execute(generateInfo);
     }
