@@ -248,7 +248,7 @@ public class CodeGenerator {
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         try {
             log.debug("代码生成开始");
-            String path = ResourceUtils.getFile("classpath:templates/freemarker/codeGeneration").getPath();
+            String path = ResourceUtils.getFile("classpath:templates/freemarker/codeGeneration/"+projectName).getPath();
             configuration.setDirectoryForTemplateLoading(new File(path));
             File templateFiles = new File(path);
             File[] templateFileList = templateFiles.listFiles();
@@ -278,9 +278,20 @@ public class CodeGenerator {
             data.put("packageName",generateInfo.getPackageName());
             for (File templateFile : templateFileList) {
                 String fileName = templateFile.getName();
-                if (fileName.startsWith(projectName)){
+                // 模板文件命令规则：文件类型_子包名（多层级以.分割）_文件名补充
+                String[] fileInfos = fileName.substring(0, fileName.indexOf(".ftl")).split("_");
+                if (fileInfos.length > 1){
                     Template template = configuration.getTemplate(fileName);
-                    File targetFile = new File(path+fileSeparator+tableInfo.getClassName()+".java");
+                    String name = fileInfos.length > 2 ? tableInfo.getClassName()+fileInfos[2] : tableInfo.getClassName();
+                    String newPath = path;
+                    if (generateInfo.isPathByPackage()){
+                        newPath += fileSeparator + fileInfos[1].replace(".", fileSeparator);
+                    }
+                    File tempDir = new File(newPath);
+                    if (!tempDir.exists() && tempDir.mkdirs()) {
+                        log.debug("创建目录： [{}]", newPath);
+                    }
+                    File targetFile = new File(newPath + fileSeparator + name + "." + fileInfos[0]);
                     if(!targetFile.exists() && targetFile.createNewFile()){
                         log.debug("创建文件： [{}]", targetFile.getAbsolutePath());
                     }
@@ -297,10 +308,10 @@ public class CodeGenerator {
     public static void main(String[] args) {
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setProjectName("sunway_gjsp");
-        generateInfo.setTableName("LIMS_VERIFICATION_RECORD");
+        generateInfo.setTableName("LIMS_EQUIP_PLAN_ANNUAL");
         generateInfo.setAuthor("liaocl");
         generateInfo.setPackageName("com.sunwayworld.elab.resourcesdata.equipment");
-        generateInfo.setPathByPackage(true);
+        generateInfo.setPathByPackage(false);
         CodeGenerator codeGenerator = new CodeGenerator();
         codeGenerator.execute(generateInfo);
     }
