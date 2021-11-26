@@ -279,7 +279,7 @@ public class CodeGenerator {
             data.put("packageName",generateInfo.getPackageName());
             for (File templateFile : templateFileList) {
                 String fileName = templateFile.getName();
-                // 模板文件命令规则：文件类型_子包名（多层级以.分割）_文件名补充
+                // 模板文件命名规则：文件类型_子包名（多层级以.分割）_文件名补充
                 String[] fileInfos = fileName.substring(0, fileName.indexOf(".ftl")).split("_");
                 if (fileInfos.length > 1){
                     Template template = configuration.getTemplate(fileName);
@@ -313,10 +313,10 @@ public class CodeGenerator {
     public static void main(String[] args) {
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setProjectName("sunway_gjsp");
-        generateInfo.setTableName("LIMS_EQUIP_PLAN_ANNUAL");
+        generateInfo.setTableName("LIMS_QCCHART_HISTORY");
         generateInfo.setAuthor("liaocl");
-        generateInfo.setPackageName("com.sunwayworld.elab.resourcesdata.equipment");
-        generateInfo.setPathByPackage(true);
+        generateInfo.setPackageName("com.sunwayworld.elab.basedata.qc");
+        generateInfo.setPathByPackage(false);
         CodeGenerator codeGenerator = new CodeGenerator();
         codeGenerator.execute(generateInfo);
     }

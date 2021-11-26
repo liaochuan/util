@@ -27,7 +27,7 @@ public class GenerateInfo {
     private String packageName;
 
     /**
-     * 是否依据包名路劲生成文件
+     * 是否依据包名路径生成文件
      */
     boolean pathByPackage;
 
