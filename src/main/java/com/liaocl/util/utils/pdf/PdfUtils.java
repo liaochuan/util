@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -18,14 +20,15 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 
 import com.liaocl.util.utils.common.StringUtils;
+import org.apache.jempbox.xmp.XMPMetadata;
+import org.apache.jempbox.xmp.XMPSchemaBasic;
 import org.apache.pdfbox.contentstream.operator.Operator;
 import org.apache.pdfbox.cos.COSArray;
 import org.apache.pdfbox.cos.COSString;
 import org.apache.pdfbox.pdfparser.PDFStreamParser;
 import org.apache.pdfbox.pdfwriter.ContentStreamWriter;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.pdmodel.*;
+import org.apache.pdfbox.pdmodel.common.PDMetadata;
 import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.springframework.core.io.ClassPathResource;
 
@@ -636,5 +639,31 @@ public class PdfUtils {
             throw new RuntimeException("添加水印时pdf文件格式不正确或水印文字为空！");
         }
     }
-	
+
+    public static void printMetadata(String pdfPath) throws Exception {
+        PDDocument document = PDDocument.load(new File(pdfPath));
+        PDDocumentCatalog catalog = document.getDocumentCatalog();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar createTime = Calendar.getInstance();
+        createTime.setTime(formatter.parse("2020-01-07 10:03:22"));
+        Calendar modifyTime = Calendar.getInstance();
+        modifyTime.setTime(formatter.parse("2020-01-07 13:11:54"));
+        // pdf元数据
+        PDDocumentInformation info = document.getDocumentInformation();
+        info.setCreationDate(createTime);
+        info.setModificationDate(modifyTime);
+        // xmp元数据
+        PDMetadata metadata = catalog.getMetadata();
+        XMPMetadata xmp = XMPMetadata.load(metadata.exportXMPMetadata());
+        XMPSchemaBasic basicSchema = xmp.getBasicSchema();
+        basicSchema.setCreateDate(createTime);
+        basicSchema.setModifyDate(modifyTime);
+        metadata.importXMPMetadata(xmp.asByteArray());
+        catalog.setMetadata(metadata);
+        document.save("D:\\metafile-1.pdf");
+    }
+
+    public static void main(String[] args) throws Exception {
+        printMetadata("C:\\Users\\廖川邻\\Downloads\\岛津(中文說明書）.pdf");
+    }
 }
