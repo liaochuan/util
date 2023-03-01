@@ -43,11 +43,11 @@ public class ${tableInfo.className} extends BaseInfo {
 	@Id
     <#list tableInfo.fieldList as field>
     @Column
-    public ${field.fieldType} get${field.fieldNameUpperFirstLetter}(){
+    public ${field.fieldType} get${field.fieldName?cap_first}(){
         return ${field.fieldName};
     }
 
-    public void set${field.fieldNameUpperFirstLetter}(${field.fieldType} ${field.fieldName}){
+    public void set${field.fieldName?cap_first}(${field.fieldType} ${field.fieldName}){
         this.${field.fieldName} = ${field.fieldName};
     }
 

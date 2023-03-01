@@ -15,6 +15,7 @@ import org.springframework.util.ResourceUtils;
 import sun.awt.OSInfo;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.*;
 
@@ -76,10 +77,10 @@ public class CodeGenerator {
                     typeSet.add(packageName);
                 }
                 Field field = new Field();
+                field.setColumnName(columnName);
                 field.setFieldName(handleColumnName(columnName,fieldHump));
                 field.setFieldType(javaType);
                 field.setFieldRemarks(columnRemarks);
-                field.setFieldNameUpperFirstLetter(firstLetterToUpperCase(columnName));
                 fieldList.add(field);
             }
             tableInfo.setClassName(tableNameToClassName(tableName));
@@ -162,6 +163,7 @@ public class CodeGenerator {
             case "TEXT":
             case "CHAR":
             case "VARCHAR":
+            case "JSON":
                 javaType = "String";
                 break;
             case "INT":
@@ -172,11 +174,16 @@ public class CodeGenerator {
                 break;
             case "DATE":
             case "DATETIME":
-            case "TIMESTAMP":
                 javaType = "Date";
+                break;
+            case "TIMESTAMP":
+                javaType = "Instant";
                 break;
             case "DECIMAL":
                 javaType = "BigDecimal";
+                break;
+            case "TINYINT":
+                javaType = "Byte";
                 break;
             default:
                 break;
@@ -192,6 +199,9 @@ public class CodeGenerator {
         switch (javaType){
             case "Date":
                 packageName = "java.util.Date";
+                break;
+            case "Instant":
+                packageName = "java.time.Instant;";
                 break;
             case "BigDecimal":
                 packageName = "java.math.BigDecimal";
@@ -264,7 +274,7 @@ public class CodeGenerator {
             File dir = new File(path);
             if (!dir.exists() && dir.mkdirs()) {
                 log.debug("创建目录： [{}]", path);
-            } else {
+            } else if (generateInfo.isDeleteOld()) {
                 FileUtils.deleteDirectory(dir);
                 log.debug("删除原有目录： [{}]", path);
                 if (dir.mkdirs()){
@@ -293,10 +303,12 @@ public class CodeGenerator {
                         log.debug("创建目录： [{}]", newPath);
                     }
                     File targetFile = new File(newPath + fileSeparator + name + "." + fileInfos[0]);
-                    if(!targetFile.exists() && targetFile.createNewFile()){
+                    if (!targetFile.exists() && targetFile.createNewFile()) {
                         log.debug("创建文件： [{}]", targetFile.getAbsolutePath());
+                    } else if (targetFile.delete() && targetFile.createNewFile()) {
+                        log.debug("替换文件： [{}]", targetFile.getAbsolutePath());
                     }
-                    Writer writer = new OutputStreamWriter(new FileOutputStream(targetFile));
+                    Writer writer = new OutputStreamWriter(Files.newOutputStream(targetFile.toPath()));
                     template.process(data,writer);
                 }
             }
@@ -312,10 +324,10 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         GenerateInfo generateInfo = new GenerateInfo();
-        generateInfo.setProjectName("sunway_gjsp");
-        generateInfo.setTableName("LIMS_QCCHART_HISTORY");
-        generateInfo.setAuthor("liaocl");
-        generateInfo.setPackageName("com.sunwayworld.elab.basedata.qc");
+        generateInfo.setProjectName("xy_baron");
+        generateInfo.setTableName("role_page");
+        generateInfo.setAuthor("mozhu");
+        generateInfo.setPackageName("com.baron.user.plate");
         generateInfo.setPathByPackage(false);
         CodeGenerator codeGenerator = new CodeGenerator();
         codeGenerator.execute(generateInfo);

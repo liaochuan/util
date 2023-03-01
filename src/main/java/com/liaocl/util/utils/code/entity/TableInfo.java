@@ -1,11 +1,15 @@
 package com.liaocl.util.utils.code.entity;
 
+import lombok.Data;
+
 import java.util.List;
 import java.util.Set;
 
 /**
+ * 表信息
  * @author liaocl
  */
+@Data
 public class TableInfo {
 
     /**
@@ -32,46 +36,6 @@ public class TableInfo {
      * 需引用的字段类型集合
      */
     private Set<String> typeSet;
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public String getTableRemarks() {
-        return tableRemarks;
-    }
-
-    public void setTableRemarks(String tableRemarks) {
-        this.tableRemarks = tableRemarks;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public List<Field> getFieldList() {
-        return fieldList;
-    }
-
-    public void setFieldList(List<Field> fieldList) {
-        this.fieldList = fieldList;
-    }
-
-    public Set<String> getTypeSet() {
-        return typeSet;
-    }
-
-    public void setTypeSet(Set<String> typeSet) {
-        this.typeSet = typeSet;
-    }
 }
 
 

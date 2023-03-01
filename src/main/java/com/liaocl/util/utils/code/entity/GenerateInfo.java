@@ -1,9 +1,12 @@
 package com.liaocl.util.utils.code.entity;
 
+import lombok.Data;
+
 /**
  * 代码生成信息
  * @author liaocl
  */
+@Data
 public class GenerateInfo {
 
     /**
@@ -29,45 +32,10 @@ public class GenerateInfo {
     /**
      * 是否依据包名路径生成文件
      */
-    boolean pathByPackage;
+    private boolean pathByPackage;
 
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public boolean isPathByPackage() {
-        return pathByPackage;
-    }
-
-    public void setPathByPackage(boolean pathByPackage) {
-        this.pathByPackage = pathByPackage;
-    }
+    /**
+     * 是否删除上次生成的代码
+     */
+    private boolean deleteOld;
 }
