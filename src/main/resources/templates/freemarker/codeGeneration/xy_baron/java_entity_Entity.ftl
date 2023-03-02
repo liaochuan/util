@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 <#list tableInfo.typeSet as type>
+    <#if type != "java.time.Instant">
 import ${type};
+    </#if>
 </#list>
 
 /**
@@ -31,7 +33,11 @@ public class ${tableInfo.className}Entity {
      * ${field.fieldRemarks}
      */
         </#if>
+        <#if field.fieldType == "Instant">
+    private Long ${field.fieldName};
+        <#else>
     private ${field.fieldType} ${field.fieldName};
+        </#if>
 
     </#list>
 }

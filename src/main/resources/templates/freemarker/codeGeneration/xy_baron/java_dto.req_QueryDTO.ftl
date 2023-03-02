@@ -24,4 +24,7 @@ import lombok.NoArgsConstructor;
 @ApiModel("${tableInfo.tableRemarks}查询DTO")
 public class ${tableInfo.className}QueryDTO {
 
+    @ApiModelProperty("创建时间")
+    private Long createTime;
+
 }

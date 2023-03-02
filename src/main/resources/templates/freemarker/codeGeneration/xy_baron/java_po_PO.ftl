@@ -7,7 +7,15 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 <#list tableInfo.typeSet as type>
+    <#if type != "java.time.Instant">
 import ${type};
+    </#if>
+</#list>
+<#list tableInfo.fieldList as field>
+    <#if field.fieldName != "id" && field.fieldName != "createTime" && field.fieldName != "updateTime" && field.fieldType == "Instant">
+import java.time.Instant;
+        <#break>
+    </#if>
 </#list>
 
 /**
@@ -27,12 +35,14 @@ import ${type};
 public class ${tableInfo.className}PO extends BasePO {
 
     <#list tableInfo.fieldList as field>
-        <#if field.fieldRemarks != "">
+        <#if field.fieldName != "id" && field.fieldName != "createTime" && field.fieldName != "updateTime">
+            <#if field.fieldRemarks != "">
     /**
      * ${field.fieldRemarks}
      */
-        </#if>
+            </#if>
     private ${field.fieldType} ${field.fieldName};
 
+        </#if>
     </#list>
 }

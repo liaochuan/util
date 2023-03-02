@@ -201,7 +201,7 @@ public class CodeGenerator {
                 packageName = "java.util.Date";
                 break;
             case "Instant":
-                packageName = "java.time.Instant;";
+                packageName = "java.time.Instant";
                 break;
             case "BigDecimal":
                 packageName = "java.math.BigDecimal";
@@ -323,13 +323,16 @@ public class CodeGenerator {
     }
 
     public static void main(String[] args) {
+        String tables = "page";
         GenerateInfo generateInfo = new GenerateInfo();
         generateInfo.setProjectName("xy_baron");
-        generateInfo.setTableName("role_page");
         generateInfo.setAuthor("mozhu");
         generateInfo.setPackageName("com.baron.user.plate");
         generateInfo.setPathByPackage(false);
         CodeGenerator codeGenerator = new CodeGenerator();
-        codeGenerator.execute(generateInfo);
+        for (String table : tables.split(",")) {
+            generateInfo.setTableName(table);
+            codeGenerator.execute(generateInfo);
+        }
     }
 }

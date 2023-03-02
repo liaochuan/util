@@ -21,4 +21,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ${tableInfo.className}QueryEntity {
 
+    /**
+     * 创建时间
+     */
+    private Long createTime;
+
 }
