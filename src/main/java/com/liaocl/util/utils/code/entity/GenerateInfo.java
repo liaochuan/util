@@ -30,6 +30,11 @@ public class GenerateInfo {
     private String packageName;
 
     /**
+     * 文件生成路径
+     */
+    private String filePath;
+
+    /**
      * 是否依据包名路径生成文件
      */
     private boolean pathByPackage;
@@ -38,4 +43,5 @@ public class GenerateInfo {
      * 是否删除上次生成的代码
      */
     private boolean deleteOld;
+
 }

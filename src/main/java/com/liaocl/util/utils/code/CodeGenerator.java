@@ -266,7 +266,9 @@ public class CodeGenerator {
             if (templateFileList == null) {
                 return;
             }
-            path = Objects.requireNonNull(this.getClass().getResource("/")).getPath().substring(1) + "CodeGenerator";
+            path = StringUtils.isEmpty(generateInfo.getFilePath()) ?
+                    Objects.requireNonNull(this.getClass().getResource("/")).getPath().substring(1) + "CodeGenerator"
+                    : generateInfo.getFilePath();
             String fileSeparator = File.separator;
             if (generateInfo.isPathByPackage()){
                 path += fileSeparator + generateInfo.getPackageName().replace(".", fileSeparator);
@@ -275,10 +277,19 @@ public class CodeGenerator {
             if (!dir.exists() && dir.mkdirs()) {
                 log.debug("创建目录： [{}]", path);
             } else if (generateInfo.isDeleteOld()) {
-                FileUtils.deleteDirectory(dir);
-                log.debug("删除原有目录： [{}]", path);
-                if (dir.mkdirs()){
-                    log.debug("创建目录： [{}]", path);
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("===========输入Y以进行确认删除原文件目录===========");
+                String in = scanner.nextLine().toUpperCase();
+                if ("Y".equals(in)) {
+                    System.out.println("===========已确认===========");
+                    FileUtils.deleteDirectory(dir);
+                    log.debug("删除原有目录： [{}]", path);
+                    if (dir.mkdirs()){
+                        log.debug("创建目录： [{}]", path);
+                    }
+                } else {
+                    System.out.println("===========未确认，程序退出===========");
+                    return;
                 }
             }
             //数据
@@ -323,16 +334,26 @@ public class CodeGenerator {
     }
 
     public static void main(String[] args) {
-        String tables = "page";
-        GenerateInfo generateInfo = new GenerateInfo();
-        generateInfo.setProjectName("xy_baron");
-        generateInfo.setAuthor("mozhu");
-        generateInfo.setPackageName("com.baron.user.plate");
-        generateInfo.setPathByPackage(false);
-        CodeGenerator codeGenerator = new CodeGenerator();
-        for (String table : tables.split(",")) {
-            generateInfo.setTableName(table);
-            codeGenerator.execute(generateInfo);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("===========输入Y以进行确认生成===========");
+        String in = scanner.nextLine().toUpperCase();
+        if ("Y".equals(in)) {
+            System.out.println("===========已确认，正在生成中===========");
+            String tables = "plate_account,plate_role,plate_menu";
+            GenerateInfo generateInfo = new GenerateInfo();
+            generateInfo.setProjectName("xy_baron");
+            generateInfo.setAuthor("mozhu");
+            generateInfo.setPackageName("com.baron.plate.account");
+            generateInfo.setPathByPackage(true);
+            generateInfo.setDeleteOld(false);
+//            generateInfo.setFilePath("/Users/mozhu/IdeaProjects/baron/baron-plate/baron-plate-modules/baron-plate-account/src/main/java");
+            CodeGenerator codeGenerator = new CodeGenerator();
+            for (String table : tables.split(",")) {
+                generateInfo.setTableName(table);
+                codeGenerator.execute(generateInfo);
+            }
+        } else {
+            System.out.println("===========未确认，程序退出===========");
         }
     }
 }

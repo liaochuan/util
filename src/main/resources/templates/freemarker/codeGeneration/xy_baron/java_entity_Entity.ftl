@@ -1,19 +1,18 @@
 package ${packageName}.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baron.common.mybatisplus.entity.BaseEntity;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 <#list tableInfo.typeSet as type>
-    <#if type != "java.time.Instant">
 import ${type};
-    </#if>
 </#list>
 
 /**
  *
- * <p>Description: ${tableInfo.tableRemarks}领域对象</p>
+ * <p>Description: ${tableInfo.tableRemarks}数据库实体</p>
  *
  * <p>Copyright: Copyright (c) ${.now?string["yyyy"]}</p>
  *
@@ -22,22 +21,20 @@ import ${type};
  * @version 1.0
  */
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ${tableInfo.className}Entity {
+@Accessors(chain = true)
+@TableName(value = "${tableInfo.tableName}")
+@EqualsAndHashCode(callSuper = true)
+public class ${tableInfo.className}Entity extends BaseEntity {
 
     <#list tableInfo.fieldList as field>
-        <#if field.fieldRemarks != "">
+        <#if !",id,createTime,createBy,updateTime,updateBy,deleted,system,"?contains(","+field.fieldName+",")>
+            <#if field.fieldRemarks != "">
     /**
      * ${field.fieldRemarks}
      */
-        </#if>
-        <#if field.fieldType == "Instant">
-    private Long ${field.fieldName};
-        <#else>
+            </#if>
     private ${field.fieldType} ${field.fieldName};
-        </#if>
 
+        </#if>
     </#list>
 }

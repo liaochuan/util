@@ -1,13 +1,14 @@
 package ${packageName}.controller;
 
+import ${packageName}.api.${tableInfo.className}Interface;
+import ${packageName}.service.${tableInfo.className}Service;
 import lombok.RequiredArgsConstructor;
-import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * <p>Description: ${tableInfo.tableRemarks}请求控制层</p>
+ * <p>Description: ${tableInfo.tableRemarks}接口实现层</p>
  *
  * <p>Copyright: Copyright (c) ${.now?string["yyyy"]}</p>
  *
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/${tableInfo.className?uncap_first}")
-@Api(tags = "${tableInfo.tableRemarks}管理")
 @RequiredArgsConstructor
-public class ${tableInfo.className}Controller {
+public class ${tableInfo.className}Controller implements ${tableInfo.className}Interface {
+
+    private final ${tableInfo.className}Service ${tableInfo.className?uncap_first}Service;
 
 }
