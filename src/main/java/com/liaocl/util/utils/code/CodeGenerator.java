@@ -339,13 +339,15 @@ public class CodeGenerator {
         String in = scanner.nextLine().toUpperCase();
         if ("Y".equals(in)) {
             System.out.println("===========已确认，正在生成中===========");
-            String tables = "plate_account,plate_role,plate_menu";
+            String tables = "plate_menu";
             GenerateInfo generateInfo = new GenerateInfo();
             generateInfo.setProjectName("xy_baron");
             generateInfo.setAuthor("mozhu");
             generateInfo.setPackageName("com.baron.plate.account");
-            generateInfo.setPathByPackage(true);
-            generateInfo.setDeleteOld(false);
+            generateInfo.setPathByPackage(false);
+            generateInfo.setDeleteOld(true);
+            generateInfo.setFilePath("./code");
+//            generateInfo.setDeleteOld(false);
 //            generateInfo.setFilePath("/Users/mozhu/IdeaProjects/baron/baron-plate/baron-plate-modules/baron-plate-account/src/main/java");
             CodeGenerator codeGenerator = new CodeGenerator();
             for (String table : tables.split(",")) {
