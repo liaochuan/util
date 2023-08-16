@@ -72,6 +72,9 @@ public class CodeGenerator {
                 String columnType = columnResultSet.getString("TYPE_NAME");
                 String columnRemarks = columnResultSet.getString("REMARKS");
                 String javaType = dbTypeToJavaType(columnType);
+                if (StringUtils.isEmpty(javaType)) {
+                    throw new RuntimeException("java 类型不匹配：" + columnType);
+                }
                 String packageName = javaTypeToPackage(javaType);
                 if (StringUtils.isNotEmpty(packageName)){
                     typeSet.add(packageName);
@@ -164,10 +167,11 @@ public class CodeGenerator {
             case "CHAR":
             case "VARCHAR":
             case "JSON":
+            case "LONGTEXT":
                 javaType = "String";
                 break;
             case "INT":
-                javaType = "int";
+                javaType = "Integer";
                 break;
             case "BIGINT":
                 javaType = "Long";
@@ -339,13 +343,13 @@ public class CodeGenerator {
         String in = scanner.nextLine().toUpperCase();
         if ("Y".equals(in)) {
             System.out.println("===========已确认，正在生成中===========");
-            String tables = "plate_menu";
+            String tables = "config";
             GenerateInfo generateInfo = new GenerateInfo();
             generateInfo.setProjectName("xy_baron");
             generateInfo.setAuthor("mozhu");
-            generateInfo.setPackageName("com.baron.plate.account");
-            generateInfo.setPathByPackage(false);
-            generateInfo.setDeleteOld(true);
+            generateInfo.setPackageName("com.xy.busi.didi");
+            generateInfo.setPathByPackage(true);
+            generateInfo.setDeleteOld(false);
             generateInfo.setFilePath("./code");
 //            generateInfo.setDeleteOld(false);
 //            generateInfo.setFilePath("/Users/mozhu/IdeaProjects/baron/baron-plate/baron-plate-modules/baron-plate-account/src/main/java");
