@@ -343,9 +343,9 @@ public class CodeGenerator {
         String in = scanner.nextLine().toUpperCase();
         if ("Y".equals(in)) {
             System.out.println("===========已确认，正在生成中===========");
-            String tables = "config";
+            String tables = "car_order";
             GenerateInfo generateInfo = new GenerateInfo();
-            generateInfo.setProjectName("xy_baron");
+            generateInfo.setProjectName("xy_didi");
             generateInfo.setAuthor("mozhu");
             generateInfo.setPackageName("com.xy.busi.didi");
             generateInfo.setPathByPackage(true);
