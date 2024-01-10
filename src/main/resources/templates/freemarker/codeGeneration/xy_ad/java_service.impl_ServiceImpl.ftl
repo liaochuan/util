@@ -4,19 +4,21 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import ${packageName}.api.constant.Constants;
 import ${packageName}.api.dto.req.${tableInfo.className}DTO;
-import ${packageName}.api.dto.req.common.PageReq;
-import ${packageName}.api.dto.req.common.Req;
+import com.xy.ad.common.api.dto.req.PageReq;
+import com.xy.ad.common.api.dto.req.Req;
 import ${packageName}.api.dto.resp.${tableInfo.className}VO;
-import ${packageName}.api.dto.resp.common.PageResp;
-import ${packageName}.api.dto.resp.common.Resp;
-import ${packageName}.api.dto.resp.common.RespCode;
+import com.xy.ad.common.api.dto.resp.PageResp;
+import com.xy.ad.common.api.dto.resp.Resp;
+import com.xy.ad.common.api.dto.resp.RespCode;
 import ${packageName}.converter.${tableInfo.className}Convertor;
 import ${packageName}.dao.${tableInfo.className}Dao;
 import ${packageName}.entity.${tableInfo.className}Entity;
 import ${packageName}.service.${tableInfo.className}Service;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -62,7 +64,7 @@ public class ${tableInfo.className}ServiceImpl extends ServiceImpl<${tableInfo.c
             return RespCode.BAD_REQUEST.resp();
         }
         ${tableInfo.className}Entity entity = ${tableInfo.className}Convertor.INSTANCE.dto2entity(req.getData());
-        return RespCode.SUCCESS.resp(baseMapper.insert(${tableInfo.className?uncap_first}Entity) > 0);
+        return RespCode.SUCCESS.resp(baseMapper.insert(entity) > 0);
     }
 
     @Override

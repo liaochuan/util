@@ -343,11 +343,11 @@ public class CodeGenerator {
         String in = scanner.nextLine().toUpperCase();
         if ("Y".equals(in)) {
             System.out.println("===========已确认，正在生成中===========");
-            String tables = "car_order";
+            String tables = "user";
             GenerateInfo generateInfo = new GenerateInfo();
-            generateInfo.setProjectName("xy_didi");
+            generateInfo.setProjectName("xy_ad");
             generateInfo.setAuthor("mozhu");
-            generateInfo.setPackageName("com.xy.busi.didi");
+            generateInfo.setPackageName("com.xy.ad.alliance");
             generateInfo.setPathByPackage(true);
             generateInfo.setDeleteOld(false);
             generateInfo.setFilePath("./code");

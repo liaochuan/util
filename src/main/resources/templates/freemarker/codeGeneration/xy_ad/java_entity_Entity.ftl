@@ -1,7 +1,7 @@
 package ${packageName}.entity;
 
+import com.xy.ad.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.xy.core.base.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -24,10 +24,10 @@ import ${type};
 @Accessors(chain = true)
 @TableName(value = "${tableInfo.tableName}")
 @EqualsAndHashCode(callSuper = true)
-public class ${tableInfo.className} extends BaseModel {
+public class ${tableInfo.className}Entity extends BaseEntity {
 
     <#list tableInfo.fieldList as field>
-        <#if !",id,createTime,createBy,updateTime,updateBy,deleted,system,"?contains(","+field.fieldName+",")>
+        <#if !",id,createTime,createBy,updateTime,updateBy,deleted,"?contains(","+field.fieldName+",")>
             <#if field.fieldRemarks != "">
     /**
      * ${field.fieldRemarks}

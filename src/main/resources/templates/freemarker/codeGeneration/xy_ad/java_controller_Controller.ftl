@@ -1,23 +1,24 @@
 package ${packageName}.controller;
 
-import ${packageName}.api.constants.Constants;
+import com.xy.ad.common.api.constant.Constants;
 import ${packageName}.api.dto.req.${tableInfo.className}DTO;
-import ${packageName}.api.dto.req.common.PageReq;
-import ${packageName}.api.dto.req.common.Req;
+import com.xy.ad.common.api.dto.req.PageReq;
+import com.xy.ad.common.api.dto.req.Req;
 import ${packageName}.api.dto.resp.${tableInfo.className}VO;
-import ${packageName}.api.dto.resp.common.PageResp;
-import ${packageName}.api.dto.resp.common.Resp;
-import ${packageName}.api.dto.validation.group.InsertGroup;
-import ${packageName}.api.dto.validation.group.UpdateGroup;
+import com.xy.ad.common.api.dto.resp.PageResp;
+import com.xy.ad.common.api.dto.resp.Resp;
+import com.xy.ad.common.api.dto.validation.group.InsertGroup;
+import com.xy.ad.common.api.dto.validation.group.UpdateGroup;
 import ${packageName}.service.${tableInfo.className}Service;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import io.swagger.annotations.Api;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.groups.Default;
+import java.util.List;
 
 /**
  *
@@ -31,52 +32,52 @@ import javax.validation.groups.Default;
  */
 @RestController
 @RequestMapping("/${tableInfo.className?uncap_first}")
-@Api(tags = "${tableInfo.tableRemarks}管理")
+@Tag(name = "${tableInfo.tableRemarks}管理")
 @RequiredArgsConstructor
 public class ${tableInfo.className}Controller {
 
     private final ${tableInfo.className}Service ${tableInfo.className?uncap_first}Service;
 
     @PostMapping("/page")
-    @ApiOperation(value = "获取分页列表")
+    @Operation(summary = "获取分页列表")
     public PageResp<${tableInfo.className}VO> page(@RequestBody PageReq<${tableInfo.className}DTO> req) {
         return ${tableInfo.className?uncap_first}Service.page(req);
     }
 
     @PostMapping("/{id}")
-    @ApiOperation(value = "根据id查询")
-    public Resp<${tableInfo.className}VO> findById(@PathVariable @ApiParam(value = "主键id") Long id) {
+    @Operation(summary = "根据id查询")
+    public Resp<${tableInfo.className}VO> findById(@PathVariable @Parameter(description = "主键id") Long id) {
         return ${tableInfo.className?uncap_first}Service.findById(id);
     }
 
     @PostMapping("/add")
-    @ApiOperation(value = "新建")
+    @Operation(summary = "新建")
     public Resp<Boolean> add(@RequestBody @Validated({InsertGroup.class, Default.class}) Req<${tableInfo.className}DTO> req) {
         return ${tableInfo.className?uncap_first}Service.add(req);
     }
 
     @PostMapping("/edit")
-    @ApiOperation(value = "编辑")
+    @Operation(summary = "编辑")
     public Resp<Boolean> edit(@RequestBody @Validated({UpdateGroup.class, Default.class}) Req<${tableInfo.className}DTO> req) {
         return ${tableInfo.className?uncap_first}Service.edit(req);
     }
 
     @PostMapping("/enable")
-    @ApiOperation(value = "启用")
-    public Resp<Boolean> enable(@RequestBody @ApiParam(value = "主键id列表") Req<List<Long>> req) {
+    @Operation(summary = "启用")
+    public Resp<Boolean> enable(@RequestBody @Parameter(description = "主键id列表") Req<List<Long>> req) {
         return ${tableInfo.className?uncap_first}Service.updateStateByIds(req.getData(), Constants.ENABLE);
     }
 
     @PostMapping("/disable")
-    @ApiOperation(value = "禁用")
-    public Resp<Boolean> disable(@RequestBody @ApiParam(value = "主键id列表") Req<List<Long>> req) {
+    @Operation(summary = "禁用")
+    public Resp<Boolean> disable(@RequestBody @Parameter(description = "主键id列表") Req<List<Long>> req) {
         return ${tableInfo.className?uncap_first}Service.updateStateByIds(req.getData(), Constants.DISABLE);
     }
 
     @PostMapping("/delete")
-    @ApiOperation(value = "删除")
-    public Resp<Boolean> delete(@RequestBody @ApiParam(value = "主键id列表") Req<List<Long>> req) {
-        return webPageGroupService.delete(req.getData());
+    @Operation(summary = "删除")
+    public Resp<Boolean> delete(@RequestBody @Parameter(description = "主键id列表") Req<List<Long>> req) {
+        return ${tableInfo.className?uncap_first}Service.delete(req.getData());
     }
 
 }

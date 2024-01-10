@@ -2,12 +2,14 @@ package ${packageName}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import ${packageName}.api.dto.req.${tableInfo.className}DTO;
-import ${packageName}.api.dto.req.common.PageReq;
-import ${packageName}.api.dto.req.common.Req;
+import com.xy.ad.common.api.dto.req.PageReq;
+import com.xy.ad.common.api.dto.req.Req;
 import ${packageName}.api.dto.resp.${tableInfo.className}VO;
-import ${packageName}.api.dto.resp.common.PageResp;
-import ${packageName}.api.dto.resp.common.Resp;
+import com.xy.ad.common.api.dto.resp.PageResp;
+import com.xy.ad.common.api.dto.resp.Resp;
 import ${packageName}.entity.${tableInfo.className}Entity;
+
+import java.util.List;
 
 /**
  *

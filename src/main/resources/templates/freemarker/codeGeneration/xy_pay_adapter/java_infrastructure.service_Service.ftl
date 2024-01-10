@@ -1,13 +1,15 @@
-package ${packageName}.service;
+package ${packageName}.infrastructure.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import ${packageName}.api.dto.req.${tableInfo.className}DTO;
-import ${packageName}.api.dto.req.common.PageReq;
-import ${packageName}.api.dto.req.common.Req;
-import ${packageName}.api.dto.resp.${tableInfo.className}VO;
-import ${packageName}.api.dto.resp.common.PageResp;
-import ${packageName}.api.dto.resp.common.Resp;
-import ${packageName}.entity.${tableInfo.className}Entity;
+import ${packageName}.client.dto.req.${tableInfo.className}ReqDTO;
+import com.smarter.common.dto.request.PageReq;
+import com.smarter.common.dto.request.Req;
+import ${packageName}.client.dto.resp.${tableInfo.className}RespDTO;
+import com.smarter.common.dto.response.PageResp;
+import com.smarter.common.dto.response.Resp;
+import ${packageName}.infrastructure.dao.entity.${tableInfo.className}Entity;
+
+import java.util.List;
 
 /**
  *
@@ -26,28 +28,28 @@ public interface ${tableInfo.className}Service extends IService<${tableInfo.clas
     * @param req 分页请求体
     * @return 分页响应体
     */
-    PageResp<${tableInfo.className}VO> page(PageReq<${tableInfo.className}DTO> req);
+    PageResp<${tableInfo.className}RespDTO> page(PageReq<${tableInfo.className}ReqDTO> req);
 
     /**
     * 根据id查询信息
     * @param id 的id
     * @return 信息
     */
-    Resp<${tableInfo.className}VO> findById(Long id);
+    Resp<${tableInfo.className}RespDTO> findById(Long id);
     
     /**
     * 创建
     * @param req 信息请求体
     * @return 创建结果状态响应体
     */
-    Resp<Boolean> add(Req<${tableInfo.className}DTO> req);
+    Resp<Boolean> add(Req<${tableInfo.className}ReqDTO> req);
     
     /**
     * 修改
     * @param req 信息请求体
     * @return 修改结果状态响应体
     */
-    Resp<Boolean> edit(Req<${tableInfo.className}DTO> req);
+    Resp<Boolean> edit(Req<${tableInfo.className}ReqDTO> req);
     
     /**
     * 根据id更新状态
@@ -57,11 +59,4 @@ public interface ${tableInfo.className}Service extends IService<${tableInfo.clas
     */
     Resp<Boolean> updateStateByIds(List<Long> ids, byte state);
 
-    /**
-     * 根据id删除
-     * @param ids id列表
-     * @return 删除结果状态响应体
-     */
-    Resp<Boolean> delete(List<Long> ids);
-    
 }

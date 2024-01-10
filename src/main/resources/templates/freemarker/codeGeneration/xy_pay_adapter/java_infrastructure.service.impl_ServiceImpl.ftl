@@ -1,22 +1,24 @@
-package ${packageName}.service.impl;
+package ${packageName}.infrastructure.service.impl;
 
-import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import ${packageName}.api.constant.Constants;
-import ${packageName}.api.dto.req.${tableInfo.className}DTO;
-import ${packageName}.api.dto.req.common.PageReq;
-import ${packageName}.api.dto.req.common.Req;
-import ${packageName}.api.dto.resp.${tableInfo.className}VO;
-import ${packageName}.api.dto.resp.common.PageResp;
-import ${packageName}.api.dto.resp.common.Resp;
-import ${packageName}.api.dto.resp.common.RespCode;
-import ${packageName}.converter.${tableInfo.className}Convertor;
-import ${packageName}.dao.${tableInfo.className}Dao;
-import ${packageName}.entity.${tableInfo.className}Entity;
-import ${packageName}.service.${tableInfo.className}Service;
+import ${packageName}.client.dto.req.${tableInfo.className}ReqDTO;
+import com.smarter.common.dto.request.PageReq;
+import com.smarter.common.dto.request.Req;
+import ${packageName}.client.dto.resp.${tableInfo.className}RespDTO;
+import com.smarter.common.dto.response.PageResp;
+import com.smarter.common.dto.response.Resp;
+import com.smarter.common.dto.response.RespCode;
+import ${packageName}.infrastructure.converter.${tableInfo.className}Convertor;
+import ${packageName}.infrastructure.dao.entity.${tableInfo.className}Entity;
+import ${packageName}.infrastructure.dao.mapper.${tableInfo.className}Mapper;
+import ${packageName}.infrastructure.service.${tableInfo.className}Service;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -29,10 +31,10 @@ import org.springframework.util.CollectionUtils;
  * @version 1.0
  */
 @Service
-public class ${tableInfo.className}ServiceImpl extends ServiceImpl<${tableInfo.className}Dao, ${tableInfo.className}Entity> implements ${tableInfo.className}Service {
+public class ${tableInfo.className}ServiceImpl extends ServiceImpl<${tableInfo.className}Mapper, ${tableInfo.className}Entity> implements ${tableInfo.className}Service {
 
     @Override
-    public PageResp<${tableInfo.className}VO> page(PageReq<${tableInfo.className}DTO> req) {
+    public PageResp<${tableInfo.className}RespDTO> page(PageReq<${tableInfo.className}ReqDTO> req) {
         if (Objects.isNull(req) || Objects.isNull(req.getData())) {
             return RespCode.BAD_REQUEST.pageResp();
         }
@@ -49,7 +51,7 @@ public class ${tableInfo.className}ServiceImpl extends ServiceImpl<${tableInfo.c
     }
 
     @Override
-    public Resp<${tableInfo.className}VO> findById(Long id) {
+    public Resp<${tableInfo.className}RespDTO> findById(Long id) {
         if (Objects.isNull(id)) {
             return RespCode.BAD_PARAMETER.resp(null, "id");
         }
@@ -57,22 +59,23 @@ public class ${tableInfo.className}ServiceImpl extends ServiceImpl<${tableInfo.c
     }
 
     @Override
-    public Resp<Boolean> add(Req<${tableInfo.className}DTO> req) {
+    public Resp<Boolean> add(Req<${tableInfo.className}ReqDTO> req) {
         if (Objects.isNull(req) || Objects.isNull(req.getData())) {
             return RespCode.BAD_REQUEST.resp();
         }
-        ${tableInfo.className}Entity entity = ${tableInfo.className}Convertor.INSTANCE.dto2entity(req.getData());
+        ${tableInfo.className}ReqDTO reqData = req.getData();
+        ${tableInfo.className}Entity ${tableInfo.className?uncap_first}Entity = new ${tableInfo.className}Entity();
         return RespCode.SUCCESS.resp(baseMapper.insert(${tableInfo.className?uncap_first}Entity) > 0);
     }
 
     @Override
-    public Resp<Boolean> edit(Req<${tableInfo.className}DTO> req) {
+    public Resp<Boolean> edit(Req<${tableInfo.className}ReqDTO> req) {
         if (Objects.isNull(req) || Objects.isNull(req.getData()) || Objects.isNull(req.getData().getId())) {
             return RespCode.BAD_REQUEST.resp();
         }
-        ${tableInfo.className}Entity entity = ${tableInfo.className}Convertor.INSTANCE.dto2entity(req.getData());
+        ${tableInfo.className}ReqDTO reqData = req.getData();
         Boolean result = this.lambdaUpdate()
-                .eq(${tableInfo.className}Entity::getId, entity.getId())
+                .eq(${tableInfo.className}Entity::getId, reqData.getId())
                 .update();
         return RespCode.SUCCESS.resp(result);
     }
@@ -87,14 +90,6 @@ public class ${tableInfo.className}ServiceImpl extends ServiceImpl<${tableInfo.c
                 .set(${tableInfo.className}Entity::getEnabled, state)
                 .update();
         return RespCode.SUCCESS.resp(result);
-    }
-
-    @Override
-    public Resp<Boolean> delete(List<Long> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
-            return RespCode.BAD_PARAMETER.resp(false, "ids");
-        }
-        return RespCode.SUCCESS.resp(this.removeBatchByIds(ids));
     }
 
 }
